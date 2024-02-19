@@ -1,6 +1,53 @@
+import {useEffect, useState} from 'react'
 import { CountdownContainer, Separator } from "./styles";
+import { differenceInSeconds } from 'date-fns';
 
-export function Countdown() {
+interface CountdownProps {
+  activeCycle: any;
+  setCycles: any;
+  activeCycleId: any;
+}
+
+export function Countdown({activeCycle, setCycles, activeCycleId}: CountdownProps) {
+  const [amountSecondsPassaed, setAmountSecondsPassaed] = useState(0)
+
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
+
+  useEffect(() => {
+    let interval: number;
+
+    if (activeCycle) {
+      interval = setInterval(() => {
+        const secondsDifference = differenceInSeconds(
+          new Date(), 
+          activeCycle.startDate
+        )
+
+        if (secondsDifference >= totalSeconds) {
+          setCycles((state) => state.map((cycle) => {
+            if (cycle.id == activeCycleId) {
+              return { ...cycle, finishedDate: new Date()}
+            } else { 
+              return cycle
+            }
+            }),
+            )
+
+          setAmountSecondsPassaed(totalSeconds)
+          clearInterval(interval)
+        } else {
+          setAmountSecondsPassaed(secondsDifference)
+        }
+        
+      }, 1000)
+    }
+
+      return () => {
+        clearInterval(interval)
+      }
+
+  }, [activeCycle, totalSeconds, activeCycleId])
+
     return (
         <CountdownContainer>
         <span>{minutes[0]}</span>
