@@ -35,6 +35,7 @@ export function NewCycleForm() {
             min={1} 
             max={60}
             disabled={!!activeCycle}
+            inputMode="numeric"
             {...register('minutesAmount', {valueAsNumber: true})}
             />
 

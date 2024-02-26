@@ -12,8 +12,8 @@ import { CyclesContext } from "../../Contexts/CyclesContext";
 const newCycleFormValidationSchema =zod.object({
   task: zod.string().min(1, 'Informe a Tarefa'),
   minutesAmount: zod.number()
-  .min(1, 'O Cyclo  precisa ser de no maimo 5 minutos.')
-  .max(60, 'O Cyclo  precisa ser de no maimo 60 minutos.'),
+  .min(1, 'O Cyclo  precisa ser de no minimo 1 minuto.')
+  .max(60, 'O Cyclo  precisa ser de no maximo 60 minutos.')
 })
 
 
